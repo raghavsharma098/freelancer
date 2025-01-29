@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+  <style>
+    /* General Reset and Full-Height Styling */
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: Arial, sans-serif;
+    }
+
+    .background-video {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+    }
+
+    /* Navbar Styling */
+    .navbar {
+            background-color: #343a40;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            z-index: 10;
+        }
+
+        .navbar-brand {
+            color: #fff !important;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .navbar-nav .nav-item .nav-link {
+            color: #fff !important;
+            font-size: 1.1rem;
+            padding: 0.7rem 1rem;
+        }
+
+        .navbar-nav .nav-item .nav-link:hover {
+            color: #f1c40f !important;
+        }
+
+    /* Form and Page Content Styling */
+    .container {
+      position: fixed;
+      top: 50%; /* Place the box in the middle of the screen */
+      left: 50%;
+      transform: translate(-50%, -50%); /* Adjust for centering */
+      max-width: 600px;
+      width: 100%;
+      padding: 20px;
+      background-color: rgba(255, 255, 255, 0.8);
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      z-index: 20;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    form div {
+      margin-bottom: 15px;
+    }
+
+    label {
+      font-size: 16px;
+      color: #333;
+    }
+
+    input[type="text"], input[type="password"] {
+      padding: 10px;
+      font-size: 16px;
+      width: 100%;
+      margin-top: 5px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+
+    button {
+      padding: 10px;
+      background-color: #28a745;
+      border: none;
+      color: white;
+      font-size: 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #218838;
+    }
+
+    /* Error/Success Message List Styling */
+    .message-list {
+      padding: 0;
+      list-style-type: none;
+      margin-bottom: 20px;
+    }
+
+    .message-list li {
+      color: red;
+    }
+
+    /* Footer Styling */
+    footer {
+      background-color: rgba(0, 0, 0, 0.8);
+      color: white;
+      text-align: center;
+      padding: 15px;
+      position: fixed;
+      width: 100%;
+      bottom: 0;
+      left: 0;
+      z-index: 10;
+    }
+
+    footer a {
+      color: white;
+      text-decoration: none;
+    }
+
+    /* Fixing the login link issue */
+    .container p {
+      text-align: center;
+      margin-top: 15px;
+    }
+
+    .container a {
+      color: #28a745;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Background video -->
+  <video class="background-video" autoplay muted loop>
+    <source src="/33628-397860881_small.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+
+  <audio autoplay loop>
+    <source src="/The Weeknd - Blinding Lights (Official Audio).mp3" type="audio/mp3">
+    Your browser does not support the audio element.
+  </audio>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <a class="navbar-brand" href="#">Website World</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="/shop">Shop</a></li>
+            <li class="nav-item"><a class="nav-link" href="/earn">Earn</a></li> 
+            <li class="nav-item"><a class="nav-link" href="/all-websites">All Websites</a></li>
+            <li class="nav-item"><a class="nav-link" href="/contract">Contract</a></li>
+            
+            <% if (user) { %>
+                <!-- If the user is logged in, show logout button -->
+                <li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
+            <% } else { %>
+                <!-- If the user is not logged in, show login button -->
+                <li class="nav-item"><a class="nav-link" href="/login">Log In</a></li>
+            <% } %>
+        </ul>
+    </div>
+</nav>
+
+  <!-- Registration Form -->
+  <div class="container">
+    <h1>Register</h1>
+
+    <!-- Display error messages if any -->
+    <% if (error && error.length > 0) { %>
+      <ul class="message-list">
+        <% error.forEach(function(msg) { %>
+          <li><%= msg %></li>
+        <% }); %>
+      </ul>
+    <% } %>
+
+    <!-- Display success messages -->
+    <% if (success && success.length > 0) { %>
+      <ul class="message-list">
+        <% success.forEach(function(msg) { %>
+          <li><%= msg %></li>
+        <% }); %>
+      </ul>
+    <% } %>
+
+    <form action="/register" method="POST">
+      <div>
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+      </div>
+      <div>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+      </div>
+      <button type="submit">Register</button>
+    </form>
+
+    <p>Already have an account? <a href="/login">Login</a></p>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy;  2024 Website World | All Rights By Raghav Sharma</a></p>
+  </footer>
+
+</body>
+
+</html>

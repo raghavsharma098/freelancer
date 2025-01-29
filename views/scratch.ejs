@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Job Search</title>
+  <style>
+    /* Global Styles */
+    body {
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(135deg, #2b5876, #4e4376);
+      color: #fff;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h1 {
+      font-size: 3rem;
+      text-align: center;
+      margin: 20px 0;
+    }
+
+    form {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 20px;
+      border-radius: 10px;
+      backdrop-filter: blur(5px);
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+      width: 90%;
+      max-width: 500px;
+      margin-bottom: 20px;
+    }
+
+    label {
+      font-size: 1.2rem;
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      font-size: 1rem;
+      margin-bottom: 20px;
+      border: none;
+      border-radius: 5px;
+      outline: none;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 1.2rem;
+      background: linear-gradient(45deg, #6a11cb, #2575fc);
+      border: none;
+      color: #fff;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    button:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    #results {
+      margin-top: 20px;
+      width: 90%;
+      max-width: 800px;
+      height: 60vh; /* Set height to enable scrolling */
+      overflow-y: auto; /* Enable vertical scrolling */
+      background: rgba(255, 255, 255, 0.1);
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    h2 {
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    li {
+      background: rgba(255, 255, 255, 0.1);
+      margin: 10px 0;
+      padding: 15px;
+      border-radius: 5px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    a {
+      color: #ffe57f;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    a:hover {
+      color: #ffcc33;
+    }
+
+    p {
+      font-size: 1.2rem;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <h1>Search for Jobs</h1>
+  <form action="/search" method="get">
+    <label for="skill">Enter Skill:</label>
+    <input type="text" id="skill" name="skill" placeholder="e.g., Software Engineer" required>
+    <button type="submit">Search</button>
+  </form>
+
+  <div id="results">
+    <% if (jobs && jobs.length > 0) { %>
+      <h2>Job Listings:</h2>
+      <ul>
+        <% jobs.forEach(function(job) { %>
+          <li>
+            <a href="<%= job.link %>" target="_blank">
+              <strong><%= job.title %></strong> at <%= job.company %> - <%= job.location %>
+            </a>
+          </li>
+        <% }); %>
+      </ul>
+    <% } else { %>
+      <p>No jobs found.</p>
+    <% } %>
+  </div>
+</body>
+</html>

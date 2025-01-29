@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Site</title>
+    <!-- Bootstrap 4 CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- AOS Animation Library -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+    <style>
+        /* Global Styles */
+        body {
+            background-color: #f0f0f0;
+            font-family: 'Arial', sans-serif;
+            color: #444;
+            margin: 0;
+            padding: 0;
+            position: relative;
+            overflow-x: hidden;
+        }
+        .navbar {
+            background-color: #343a40;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            z-index: 10;
+        }
+
+        .navbar-brand {
+            color: #fff !important;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .navbar-nav .nav-item .nav-link {
+            color: #fff !important;
+            font-size: 1.1rem;
+            padding: 0.7rem 1rem;
+        }
+
+        .navbar-nav .nav-item .nav-link:hover {
+            color: #f1c40f !important;
+        }
+        .video-container {
+            position: fixed; /* Fixes the video to the screen */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh; /* Full viewport height */
+            z-index: -1; /* Ensure it's behind the content */
+        }
+
+        #bg-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Ensures the video fills the screen */
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        form {
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: 0 auto;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        form div {
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: #555;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            font-size: 1rem;
+            margin-top: 0.5rem;
+            background-color: #f9f9f9;
+            transition: border-color 0.3s ease;
+        }
+
+        input:focus, textarea:focus {
+            border-color: #f1c40f;
+            background-color: #fff;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 150px;
+        }
+
+        button {
+            background-color: #f1c40f;
+            color: white;
+            font-size: 1.2rem;
+            padding: 10px 30px;
+            border: none;
+            border-radius: 5px;
+            width: 100%;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #d4ac0d;
+            transform: scale(1.05);
+        }
+
+        /* Hover effect for the input fields */
+        input:focus, textarea:focus {
+            box-shadow: 0 0 5px rgba(241, 196, 15, 0.5);
+        }
+
+        /* Animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="video-container">
+        <video autoplay muted loop id="bg-video">
+            <source src="/33628-397860881_small.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <audio autoplay loop>
+        <source src="/The Weeknd - Blinding Lights (Official Audio).mp3" type="audio/mp3">
+        Your browser does not support the audio element.
+      </audio>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <a class="navbar-brand" href="#">Website World</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="/shop">Shop</a></li>
+                <li class="nav-item"><a class="nav-link" href="/earn">Earn</a></li> 
+                <li class="nav-item"><a class="nav-link" href="/all-websites">All Websites</a></li>
+                <li class="nav-item"><a class="nav-link" href="/contract">Contract</a></li>
+                
+                <% if (user) { %>
+                    <!-- If the user is logged in, show logout button -->
+                    <li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
+                <% } else { %>
+                    <!-- If the user is not logged in, show login button -->
+                    <li class="nav-item"><a class="nav-link" href="/login">Log In</a></li>
+                <% } %>
+            </ul>
+        </div>
+    </nav>
+    <div class="container my-5">
+        <h1 data-aos="fade-up">Edit Site: <%= site.siteName %></h1>
+        <form action="/earn/edit/<%= site._id %>" method="POST" enctype="multipart/form-data">
+            <div>
+                <label for="siteName">Site Name:</label>
+                <input type="text" name="siteName" value="<%= site.siteName %>" required />
+            </div>
+            <div>
+                <label for="siteUrl">Site URL:</label>
+                <input type="url" name="siteUrl" value="<%= site.siteUrl %>" required />
+            </div>
+            <div>
+                <label for="description">Description:</label>
+                <textarea name="description" required><%= site.description %></textarea>
+            </div>
+            <div>
+                <label for="githubUrl">GitHub Repository URL:</label>
+                <input type="url" name="githubUrl" value="<%= site.githubUrl %>" />
+            </div>
+            <div>
+                <label for="imageUrl">Image URL:</label>
+                <input type="file" name="imageUrl" />
+        
+                <!-- Pass the old image URL and public ID -->
+                <input type="hidden" name="oldImageUrl" value="<%= site.image.url %>" />
+                <input type="hidden" name="oldImagePublicId" value="<%= site.image.publicId || '' %>" />
+        
+                <!-- Display the old image if it exists, otherwise show a default message -->
+                <% if (site.image && site.image.url && site.image.url !== '') { %>
+                    <div>
+                        <p>Current Image:</p>
+                        <img src="<%= site.image.url %>" alt="Current Image" style="max-width: 100%; height: auto;" />
+                    </div>
+                <% } else { %>
+                    <p>No image uploaded yet.</p>
+                <% } %>
+            </div>
+            <div>
+                <label for="price">Price:</label>
+                <input type="number" name="price" step="0.01" value="<%= site.price %>" required />
+            </div>
+            <button type="submit">Update Site</button>
+        </form>
+        
+        
+        
+
+    <!-- Bootstrap and AOS JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 1000, // Animation duration
+            once: true, // Animation happens only once
+        });
+    </script>
+</body>
+</html>

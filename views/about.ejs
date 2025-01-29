@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>About Me | Website Order</title>
+  
+  <!-- Bootstrap and Font Awesome -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  
+  <style>
+    /* Custom Styling */
+    .video-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: -1;
+    }
+
+    #bg-video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    .about-section {
+      background-color: transparent;
+      padding: 50px 0;
+      margin-bottom: 0;
+    }
+
+    .about-section h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      color: #343a40;
+    }
+
+    .about-section .lead {
+      font-size: 1.25rem;
+      color: #6c757d;
+    }
+
+    .about-section .profile-img {
+      width: 180px;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 4px solid #fff;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Styling for Skills & Expertise Card */
+    .skills-card {
+      background-color: #ffffff;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease-in-out;
+      padding: 20px;
+      border: none;
+      margin-bottom: 30px;
+    }
+
+    .skills-card ul {
+      padding-left: 20px;
+    }
+
+    .skills-card ul li {
+      font-size: 1.1rem;
+    }
+
+    .skills-card:hover {
+      transform: translateY(-10px);
+    }
+
+    /* Footer Styling */
+    .footer {
+      background-color: #343a40;
+      color: #fff;
+      padding: 1.5rem 0;
+      margin-top: 0;
+    }
+
+    .footer p {
+      margin-bottom: 0;
+    }
+
+    .navbar {
+            background-color: #343a40;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            z-index: 10;
+    }
+
+    .navbar-brand {
+            color: #fff !important;
+            font-size: 1.8rem;
+            font-weight: 700;
+    }
+
+    .navbar-nav .nav-item .nav-link {
+            color: #fff !important;
+            font-size: 1.1rem;
+            padding: 0.7rem 1rem;
+    }
+    .navbar-nav .nav-item .nav-link:hover {
+            color: #f1c40f !important;
+      }
+
+    /* Transparent Reach Section */
+    .reach {
+      background-color: transparent;
+      color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      font-weight: 500;
+    }
+
+    /* Animated Door Styling */
+    .door-container {
+      position: relative;
+      width: 250px; /* Smaller size for the door */
+      height: 350px; /* Smaller height for the door */
+      margin-top: 50px;
+      margin-left: auto;
+      margin-right: auto;
+      cursor: pointer;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .door {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('https://img.freepik.com/premium-photo/door-front-rustic-horror-house-against-backdrop-dark-eerie-forest_124507-92155.jpg?semt=ais_hybridhttps://img.freepik.com/premium-psd/door-interior-isolated-transparent-background-png_1073071-4034.jpg'); /* Replace with actual door image URL */
+      background-size: cover;
+      background-position: center;
+      transition: transform 1s ease-in-out;
+      z-index: 1;
+    }
+
+    .door.open {
+      transform: translateX(100%); /* Move the door to the right when clicked */
+    }
+
+    .door .door-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      font-size: 1.5rem;
+      font-weight: bold;
+      animation: blink 1.5s infinite step-start; /* Blinking effect */
+    }
+
+    /* Blinking Text Effect */
+    @keyframes blink {
+      0% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+
+    .teammates-images {
+      display: none;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+      z-index: 0;
+    }
+
+    .teammates-images.show {
+      display: block;
+      opacity: 1;
+    }
+
+    .teammates-images img {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      margin: 10px;
+      object-fit: cover;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Social Media Links Styling */
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 30px;
+    }
+
+    .social-links a {
+      font-size: 2rem;
+      color: #343a40;
+      transition: color 0.3s ease;
+    }
+
+    .social-links a:hover {
+      color: #007bff;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Background Video -->
+  <div class="video-container">
+    <video autoplay muted loop id="bg-video">
+      <source src="/33628-397860881_small.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+
+  <audio autoplay loop>
+    <source src="/The Weeknd - Blinding Lights (Official Audio).mp3" type="audio/mp3">
+    Your browser does not support the audio element.
+  </audio>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <a class="navbar-brand" href="/">Website Order</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link active" href="/">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/">About</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/shop">Shop</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/earn">Earn</a></li> 
+        <li class="nav-item">
+          <a class="nav-link" href="/all-websites">All Websites</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- About Section -->
+  <section class="about-section text-center">
+    <h1>About Me</h1>
+    <p class="lead mb-4">I am a professional web developer Currently Pursuing My Btech 2nd Year. I specialize in creating responsive, user-friendly websites tailored to your business needs.</p>
+    
+    <div class="container d-flex justify-content-center align-items-center mb-5">
+      <img src="/WhatsApp Image 2024-11-28 at 15.49.53_339994d3.jpg" alt="Profile Picture" class="profile-img">
+    </div>
+    <p style="color: white;">Raghav Sharma</p>
+
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+          <div class="skills-card shadow-lg">
+            <h5 class="card-title">Skills & Expertise</h5>
+            <ul class="list-unstyled">
+              <li><strong>HTML/CSS</strong> - Expertise in crafting pixel-perfect websites.</li>
+              <li><strong>JavaScript</strong> - Proficient in JavaScript frameworks such as React and Node.js.</li>
+              <li><strong>Responsive Design</strong> - I create websites that work seamlessly on any device.</li>
+              <li><strong>Web Performance Optimization</strong> - I ensure websites load fast and smoothly.</li>
+              <li><strong>SEO</strong> - Optimized websites for search engines for better visibility.</li>
+              <li><strong>Backend Development</strong> - Experience with server-side programming using Node.js, PHP, and databases.</li>
+              <li><strong>Blockchain</strong> - Understanding of blockchain technology and developing decentralized applications (DApps).</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Social Media Links -->
+     <p style="color: white;">My Social Handles</p>
+    <div class="social-links">
+      <a href="https://www.linkedin.com/in/raghavsharma098/" target="_blank"><i class="fab fa-linkedin"></i></a>
+      <a href="https://github.com/raghavsharma098" target="_blank"><i class="fab fa-github"></i></a>
+    </div>
+  </section>  
+
+  <!-- Animated Door for Teammates -->
+  <section class="door-container" onclick="openDoor()">
+    <div class="door">
+      <div class="door-text">Click to See My Teammates</div>
+    </div>
+    <div class="teammates-images">
+      <img src="/WhatsApp Image 2024-11-28 at 15.47.13_bd916512.jpg" alt="Teammate 1">
+      <p style="color: white;">Palak Modi</p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer text-center">
+    <p>© 2024 Website Order | All Rights By Raghav Sharma</p>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+  <script>
+    function openDoor() {
+      document.querySelector('.door').classList.add('open');
+      setTimeout(function () {
+        document.querySelector('.teammates-images').classList.add('show');
+      }, 1000); // Delay to wait for door animation to complete
+    }
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MetaMask Web3 Example</title>
+  <script src="https://cdn.jsdelivr.net/npm/web3@1.6.1/dist/web3.min.js"></script>
+  <style>
+    /* General Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Arial', sans-serif;
+      background: #f0f0f0;
+      color: #333;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      padding: 20px;
+      transition: all 0.3s ease-in-out;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      color: #4e6c94;
+      margin-bottom: 20px;
+      text-align: center;
+      animation: fadeIn 1.5s ease-in;
+    }
+
+    h3 {
+      margin-top: 20px;
+      color: #4e6c94;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 600px;
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      animation: slideUp 0.7s ease-out;
+    }
+
+    /* Button Styles */
+    button {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      background-color: #4e6c94;
+      border: none;
+      border-radius: 5px;
+      color: white;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: transform 0.3s, background-color 0.3s;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+      background-color: #3a4d6d;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 5px;
+      border: 1px solid #ddd;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    input:focus {
+      border-color: #4e6c94;
+      outline: none;
+      box-shadow: 0 0 10px rgba(78, 108, 148, 0.3);
+    }
+
+    /* Responsive Design */
+    @media screen and (max-width: 768px) {
+      .container {
+        padding: 15px;
+      }
+
+      button {
+        font-size: 1rem;
+      }
+
+      input {
+        font-size: 0.9rem;
+      }
+    }
+
+    /* Animations */
+    @keyframes slideUp {
+      0% {
+        transform: translateY(30px);
+        opacity: 0;
+      }
+      100% {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes fadeIn {
+      0% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+
+    /* Display Account Information */
+    #accountDisplay {
+      margin-bottom: 15px;
+      padding: 10px;
+      background-color: #e0f7fa;
+      border-radius: 5px;
+      color: #00796b;
+      text-align: center;
+      font-size: 1.2rem;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>MetaMask Contract Interaction</h1>
+    <button id="connectButton">Connect MetaMask</button>
+    <div id="accountDisplay"></div>
+
+    <div>
+      <h3>Contract Interaction</h3>
+      <input type="text" id="freelancerAddress" placeholder="Freelancer Address">
+      <input type="number" id="paymentAmount" placeholder="Payment Amount (ETH)">
+      <button id="fundContractButton">Fund Contract</button>
+      <button id="markWorkCompletedButton">Mark Work Completed</button>
+      <button id="checkBalanceButton">Check Balance</button>
+      <button id="signatureButton">Sign Contract</button>
+      <button id="sendSignRequestButton">Send Sign Request</button> <!-- Signature Button -->
+    </div>
+  </div>
+
+  <script>
+    let web3;
+    let contract;
+    const contractAddress = '0x60db8d0a13f0e43a724357b0168022deefaf9836'; // Replace with your contract address
+    const contractABI = [
+	{
+		"inputs": [],
+		"name": "fundContract",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "markWorkCompleted",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "releasePayment",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "signContract",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_freelancer",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_paymentAmount",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"inputs": [],
+		"name": "contractBalance",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "contractSigned",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "employer",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "freelancer",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "paymentAmount",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "workCompleted",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+];
+
+    // Initialize Web3 and contract when MetaMask is connected
+    async function initWeb3() {
+      if (window.ethereum) {
+        web3 = new Web3(window.ethereum);
+
+        try {
+          const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+          const account = accounts[0];
+
+          // Display the connected account address
+          document.getElementById('accountDisplay').innerText = 'Connected: ' + account;
+
+          // Initialize the contract instance
+          contract = new web3.eth.Contract(contractABI, contractAddress);
+
+          console.log('MetaMask connected:', account);
+        } catch (error) {
+          console.error('MetaMask connection failed:', error);
+          alert('Error connecting MetaMask: ' + error.message);
+        }
+      } else {
+        alert('Please install MetaMask');
+      }
+    }
+
+    // Button click event to connect MetaMask
+    document.getElementById('connectButton').addEventListener('click', initWeb3);
+
+    // Button click event to fund contract
+    document.getElementById('fundContractButton').addEventListener('click', async () => {
+      const freelancerAddress = document.getElementById('freelancerAddress').value;
+      const paymentAmount = document.getElementById('paymentAmount').value;
+
+      if (!freelancerAddress || !paymentAmount) {
+        alert('Please fill out all fields');
+        return;
+      }
+
+      const employerAddress = window.ethereum.selectedAddress; // Current MetaMask account
+
+      if (!contract) {
+        alert('Contract not initialized. Please connect to MetaMask first.');
+        return;
+      }
+
+      try {
+        // Fund contract by sending the specified payment amount
+        console.log('Funding contract with:', freelancerAddress, paymentAmount, employerAddress);
+        const tx = await contract.methods
+          .fundContract()
+          .send({
+            from: employerAddress,
+            value: web3.utils.toWei(paymentAmount, 'ether') // Convert ETH to Wei
+          });
+
+        console.log('Transaction successful:', tx);
+        alert('Contract funded successfully. Transaction Hash: ' + tx.transactionHash);
+      } catch (error) {
+        console.error('Error funding contract:', error);
+        alert('Error funding contract: ' + error.message);
+      }
+    });
+
+    // Button click event to mark work as completed
+    document.getElementById('markWorkCompletedButton').addEventListener('click', async () => {
+      const freelancerAddress = document.getElementById('freelancerAddress').value;
+
+      if (!freelancerAddress) {
+        alert('Please fill out the freelancer address');
+        return;
+      }
+
+      const freelancer = window.ethereum.selectedAddress; // Current MetaMask account
+
+      if (!contract) {
+        alert('Contract not initialized. Please connect to MetaMask first.');
+        return;
+      }
+
+      try {
+        // Mark work as completed by the freelancer
+        console.log('Marking work completed for freelancer:', freelancerAddress);
+        const tx = await contract.methods
+          .markWorkCompleted()
+          .send({
+            from: freelancer
+          });
+
+        console.log('Transaction successful:', tx);
+        alert('Work marked as completed. Transaction Hash: ' + tx.transactionHash);
+      } catch (error) {
+        console.error('Error marking work as completed:', error);
+        alert('Error marking work as completed: ' + error.message);
+      }
+    });
+
+    // Button click event to check the contract balance
+    document.getElementById('checkBalanceButton').addEventListener('click', async () => {
+      if (!contract) {
+        alert('Contract not initialized. Please connect to MetaMask first.');
+        return;
+      }
+
+      try {
+        // Get the contract balance
+        const balance = await contract.methods.contractBalance().call();
+        const balanceInEther = web3.utils.fromWei(balance, 'ether'); // Convert Wei to Ether
+        alert('Contract balance: ' + balanceInEther + ' ETH');
+      } catch (error) {
+        console.error('Error checking balance:', error);
+        alert('Error checking balance: ' + error.message);
+      }
+    });
+
+    // Button click event to sign contract (This is a custom function you can define)
+    document.getElementById('sendSignRequestButton').addEventListener('click', async () => {
+      const freelancerEmail = 'raghavrock098@gmail.com'; // Replace with the freelancer's email
+      const paymentAmount = document.getElementById('paymentAmount').value;
+      const employerAddress = window.ethereum.selectedAddress; // Current MetaMask account
+
+      if (!freelancerEmail || !paymentAmount || !employerAddress) {
+        alert('Please fill out all fields before sending the request.');
+        return;
+      }
+
+      const contractDetails = { paymentAmount, employerAddress };
+
+      console.log('Request Body:', {
+        freelancerEmail,
+        contractDetails
+      });
+
+      try {
+        const response = await fetch('/send-email', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ freelancerEmail, contractDetails }),
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+          alert('Email sent successfully: ' + result.message);
+        } else {
+          throw new Error(result.error || 'Unknown error');
+        }
+      } catch (error) {
+        console.error('Error sending sign request:', error);
+        alert('Error sending sign request: ' + error.message);
+      }
+    });
+
+    // Button click event to sign contract (signs for both employer and freelancer)
+    document.getElementById('signatureButton').addEventListener('click', async () => {
+      const freelancerAddress = document.getElementById('freelancerAddress').value;
+
+      if (!freelancerAddress) {
+        alert('Please fill out the freelancer address');
+        return;
+      }
+
+      const employer = window.ethereum.selectedAddress; // Current MetaMask account
+
+      if (!contract) {
+        alert('Contract not initialized. Please connect to MetaMask first.');
+        return;
+      }
+
+      try {
+        // Assuming you have a function to let the employer and freelancer sign the contract
+        console.log('Signing contract for employer:', employer, 'and freelancer:', freelancerAddress);
+        const signature = await web3.eth.personal.sign("I agree to the contract", employer);
+
+        console.log('Contract signed with signature:', signature);
+        alert('Contract signed successfully by employer.');
+      } catch (error) {
+        console.error('Error signing contract:', error);
+        alert('Error signing contract: ' + error.message);
+      }
+    });
+  </script>
+
+</body>
+</html>

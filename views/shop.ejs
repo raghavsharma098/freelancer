@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop - Website World</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <style>
+        /* Global Styles */
+        body {
+            background-color: #f0f0f0;
+            font-family: 'Arial', sans-serif;
+            color: #444;
+            margin: 0;
+            padding: 0;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .navbar {
+            background-color: #343a40;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            z-index: 10;
+        }
+
+        .navbar-brand {
+            color: #fff !important;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .navbar-nav .nav-item .nav-link {
+            color: #fff !important;
+            font-size: 1.1rem;
+            padding: 0.7rem 1rem;
+        }
+
+        .navbar-nav .nav-item .nav-link:hover {
+            color: #f1c40f !important;
+        }
+
+        /* Background Video */
+        .video-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: -1;
+        }
+
+        #bg-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Hero Section */
+        .jumbotron {
+            padding: 4rem 2rem;
+            background: transparent;
+            color: #fff;
+            text-align: center;
+            z-index: 1;
+            position: relative;
+        }
+
+        .jumbotron h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .jumbotron p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+        }
+
+        .jumbotron .btn-primary {
+            font-size: 1.1rem;
+            padding: 0.8rem 2rem;
+            background-color: #f1c40f;
+            border: none;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .jumbotron .btn-primary:hover {
+            background-color: #d4ac0d;
+            transform: scale(1.05);
+        }
+
+        /* Shop Section */
+        .container {
+            margin-top: 5rem;
+        }
+
+        .card {
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-img-top {
+            height: 250px;
+            object-fit: cover;
+            border-radius: 10px 10px 0 0;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .card-body {
+            padding: 1.5rem;
+        }
+
+        .card-text {
+            font-size: 1.1rem;
+            color: #666;
+        }
+
+        .btn-primary {
+            background-color: #f1c40f;
+            border: none;
+            color: #fff;
+            font-weight: 600;
+            padding: 0.6rem 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .btn-primary:hover {
+            background-color: #d4ac0d;
+            transform: scale(1.05);
+        }
+
+        /* Footer Section */
+        footer {
+            background-color: #343a40;
+            color: #fff;
+            padding: 2rem 0;
+            text-align: center;
+            margin-top: 5rem;
+        }
+
+        footer .btn-success {
+            background-color: #28a745;
+            border-color: #28a745;
+            padding: 0.6rem 2rem;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        footer .btn-success:hover {
+            background-color: #218838;
+        }
+
+        /* Animation (AOS) */
+        .aos-item {
+            transition: all 0.5s ease-out;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Video Background -->
+    <div class="video-container">
+        <video autoplay muted loop id="bg-video">
+            <source src="/33628-397860881_small.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <audio autoplay loop>
+        <source src="/The Weeknd - Blinding Lights (Official Audio).mp3" type="audio/mp3">
+        Your browser does not support the audio element.
+      </audio>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <a class="navbar-brand" href="#">Website World</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="/shop">Shop</a></li>
+                <li class="nav-item"><a class="nav-link" href="/earn">Earn</a></li> 
+                <li class="nav-item"><a class="nav-link" href="/all-websites">All Websites</a></li>
+                <li class="nav-item"><a class="nav-link" href="/contract">Contract</a></li>
+                
+                <% if (user) { %>
+                    <!-- If the user is logged in, show logout button -->
+                    <li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
+                <% } else { %>
+                    <!-- If the user is not logged in, show login button -->
+                    <li class="nav-item"><a class="nav-link" href="/login">Log In</a></li>
+                <% } %>
+            </ul>
+        </div>
+    </nav>
+    
+
+    <!-- Hero Section -->
+    <div class="jumbotron" data-aos="fade-up">
+        <h1 class="display-4">Shop Our Website Packages</h1>
+        <p class="lead">Choose a package to start building your amazing website!</p>
+    </div>
+
+    <!-- Shop Section -->
+    <div class="container my-5">
+        <h2 class="text-center mb-4" data-aos="fade-up">Available Packages</h2>
+        <div class="row">
+            <!-- Package 1 -->
+            <div class="col-md-4" data-aos="zoom-in" data-aos-delay="100">
+                <div class="card">
+                    <img src="/WhatsApp Image 2024-11-28 at 16.06.56_f325437c.jpg" class="card-img-top" alt="Package 1">
+                    <div class="card-body">
+                        <h5 class="card-title">Basic Package</h5>
+                        <p class="card-text">A basic website package for small businesses and personal projects.</p>
+                        <button class="btn btn-primary" data-toggle="modal" data-target="#orderModal" data-package="Basic Package">Order Now</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Package 2 -->
+            <div class="col-md-4" data-aos="zoom-in" data-aos-delay="200">
+                <div class="card">
+                    <img src="/WhatsApp Image 2024-11-28 at 16.06.55_ecb75006.jpg" class="card-img-top" alt="Package 2">
+                    <div class="card-body">
+                        <h5 class="card-title">Standard Package</h5>
+                        <p class="card-text">Perfect for businesses that need a professional-looking site.</p>
+                        <button class="btn btn-primary" data-toggle="modal" data-target="#orderModal" data-package="Standard Package">Order Now</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Package 3 -->
+            <div class="col-md-4" data-aos="zoom-in" data-aos-delay="300">
+                <div class="card">
+                    <img src="/WhatsApp Image 2024-11-28 at 16.06.56_0bad2d2c.jpg" class="card-img-top" alt="Package 3">
+                    <div class="card-body">
+                        <h5 class="card-title">Premium Package</h5>
+                        <p class="card-text">For those who want a custom-designed website with all the bells and whistles.</p>
+                        <button class="btn btn-primary" data-toggle="modal" data-target="#orderModal" data-package="Premium Package">Order Now</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Order Form Modal -->
+ <!-- Order Form Modal -->
+<div class="modal fade" id="orderModal" tabindex="-1" role="dialog" aria-labelledby="orderModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="orderModalLabel">Order Your Website Package</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form id="orderForm" method="POST" action="/submit-order">
+            <div class="form-group">
+              <label for="fullName">Full Name</label>
+              <input type="text" class="form-control" id="fullName" name="fullName" required>
+            </div>
+            <div class="form-group">
+              <label for="email">Email Address</label>
+              <input type="email" class="form-control" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+              <label for="phone">Phone Number</label>
+              <input type="text" class="form-control" id="phone" name="phone" required>
+            </div>
+            <div class="form-group">
+              <label for="websiteRequirement">Website Requirements</label>
+              <textarea class="form-control" id="websiteRequirement" name="websiteRequirement" rows="3" required></textarea>
+            </div>
+            <div class="form-group">
+              <label for="techStack">Technology Stack Wanted</label>
+              <input type="text" class="form-control" id="techStack" name="techStack">
+            </div>
+            <div class="form-group">
+              <label for="collegeName">College Name</label>
+              <input type="text" class="form-control" id="collegeName" name="collegeName">
+            </div>
+            <button type="submit" class="btn btn-primary">Submit Order</button>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+    <!-- Footer -->
+    <footer style="background-color: #343a40; color: #fff; padding: 2rem 0; text-align: center; margin-top: 5rem; z-index: 10; position: relative;">
+        <p>&copy; 2024 Website World | All Rights By Raghav Sharma</p>
+        <a href="/about" class="btn btn-success"  style="text-decoration: none; padding: 0.6rem 2rem; font-size: 1.2rem; text-transform: uppercase; letter-spacing: 1px; margin-top: 1rem;">
+            Know About Me?
+        </a>
+    </footer>
+    
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 1000,
+            once: true,
+        });
+
+        // Handle modal input
+        $('#orderModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); 
+            var packageName = button.data('package');
+            var modal = $(this);
+            modal.find('.modal-title').text('Order ' + packageName);
+        });
+
+        $('#submitOrder').on('click', function() {
+            alert('Order submitted successfully!');
+            $('#orderForm')[0].reset(); // Reset form
+            $('#orderModal').modal('hide'); // Close modal
+        });
+    </script>
+</body>
+
+</html>
